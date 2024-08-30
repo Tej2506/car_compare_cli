@@ -16,5 +16,12 @@ class Car(Base):
 class Manufacturer(Base):
     __tablename__ = 'manufacturers'
     id = Column(Integer, orimary_key = True)
-    name = Column(String,nullable= False)
+    name = Column(String, nullable= False)
     cars = relationship('Car', secondary = car_manufacturer, back_populates = 'manufacturers')
+
+class Feature(Base):
+    __tablename__ = 'features'
+    id = Column(Integer, primary_key = True)
+    name = Column(String, nullable= True)
+    
+    cars = relationship('Car', secondary = car_feature, back_populates= 'cars')
