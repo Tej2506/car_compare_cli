@@ -10,5 +10,11 @@ class Car(Base):
     name = Column(String, nullable = False)
     price = Column(Integer)
     horspower = Column(Integer)
-    manufacturers = relationshi('Manufacturer', secondary = car_manufacturer, back_populates = 'cars')
+    manufacturers = relationship('Manufacturer', secondary = car_manufacturer, back_populates = 'cars')
     features = relationship('Feature', secondary = car_feature, back_populates= 'cars')
+
+class Manufacturer(Base):
+    __tablename__ = 'manufacturers'
+    id = Column(Integer, orimary_key = True)
+    name = Column(String,nullable= False)
+    cars = relationship('Car', secondary = car_manufacturer, back_populates = 'manufacturers')
