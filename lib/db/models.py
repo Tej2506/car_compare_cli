@@ -32,7 +32,7 @@ class Car(Base):
 
 class Manufacturer(Base):
     __tablename__ = 'manufacturers'
-    id = Column(Integer, orimary_key = True)
+    id = Column(Integer, primary_key = True)
     name = Column(String, nullable= False)
     
     cars = relationship('Car', secondary = car_manufacturer, back_populates = 'manufacturers')
