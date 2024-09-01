@@ -17,7 +17,7 @@ def scrape_car_details(manufacturer, car_name):
     car_details['name'] = soup.find('h1', class_='thcHeading').text
     car_details['manufacturer'] = manufacturer
     car_details['power'] = soup.find('td', class_= 'iconsname').text
-    car_details['price'] = soup.find(i, class_= 'icon-cd_R').text
+    car_details['price'] = soup.find('i', class_= 'icon-cd_R').text
     return car_details
 
 def save_car_details_to_db(car_details):
@@ -34,7 +34,9 @@ def save_car_details_to_db(car_details):
         manufacturer = Manufacturer(name = manufacturer_name)
         session.add(manufacturer)
         session.commit()
-
-    car = Car(name= car_name, price = car_price, power = car_power)
-    session.add(car)
-    session .commit()
+    
+    car = session.query(Car).filter_by(name=car_name, manufacturer=manufacturer).first()
+    if not car:
+        car = Car(name=car_name, price=car_price, power=car_power)
+        session.add(car)
+        session.commit()
