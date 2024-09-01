@@ -1,8 +1,17 @@
 from sqlalchemy import Table, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
+
+engine = create_engine('sqlite:///sqlite:///cars.db')
+
+Session = sessionmaker(bind=engine)
+session = Session()
+
+
 
 car_manufacturer = Table(
     'car_manufacturer',
