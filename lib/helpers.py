@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from db.models import Car, Manufacturer, session
+from db.models import Car, Manufacturer, Feature, session
 
 def scrape_car_details(manufacturer, car_name):
     manufacturer_search_query = manufacturer.replace(" ", "-").lower()
@@ -20,6 +20,7 @@ def scrape_car_details(manufacturer, car_name):
     car_details['manufacturer'] = manufacturer
     car_details['price'] = soup.find('div', class_= 'price').text.split('Rs.')[1].split('*')[0]
     tr_elements = soup.find('div', class_="qccontent").find_all('tr')
+    li_elements = soup.find_all('div', class_="qccontent")[1].find('ul').find_all('li')
     car_specs=["Engine", "Power", "Torque"]
     
     for row in tr_elements:
@@ -28,6 +29,11 @@ def scrape_car_details(manufacturer, car_name):
         if car_spec in car_specs:
             car_details[car_spec] = car_spec_value
     
+    features_list = []
+    for row in li_elements:
+        features_list.append(row.text.strip())
+    car_details["features_list"]=features_list
+        
     return car_details
 
 def save_car_details_to_db(car_details):
@@ -40,25 +46,35 @@ def save_car_details_to_db(car_details):
     car_power = car_details.get('Power')
     car_engine = car_details.get('Engine')
     car_torque = car_details.get('Torque')
+    features = car_details.get('features_list')
     
 
     manufacturer = session.query(Manufacturer).filter_by(name=manufacturer_name.lower()).first()
     if not manufacturer:
-        manufacturer = Manufacturer(name = manufacturer_name)
+        manufacturer = Manufacturer(name = manufacturer_name.lower())
         session.add(manufacturer)
         session.commit()
     
     car = session.query(Car).filter_by(name=car_name.lower()).first()
     if not car:
         car = Car(
-            name=car_name, 
+            name=car_name.lower(), 
             price=car_price, 
             power=car_power, 
             engine=car_engine, 
-            torque=car_torque
+            torque=car_torque,
+            manufacturer = manufacturer
         )
         session.add(car)
         session.commit()
+
+    for feature in features:
+        feature_query = session.query(Feature).filter_by(name = feature.lower()).first() 
+        if not feature_query:
+            feature = Feature(name = feature.lower())
+            session.add(feature)
+            session.commit()
+        
     session.close()
 
 
