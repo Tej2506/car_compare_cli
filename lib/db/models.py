@@ -54,9 +54,12 @@ class Manufacturer(Base):
     
     def __repr__(self):
         return f"{self.id}: {self.name}"
+
 class Feature(Base):
     __tablename__ = 'features'
     id = Column(Integer, primary_key = True)
     name = Column(String, nullable= True)
     
     cars = relationship('Car', secondary = car_feature, back_populates= 'features')
+    def __repr__(self):
+        return f"{self.id}: {self.name}"
