@@ -1,5 +1,5 @@
 from helpers import scrape_car_details, save_car_details_to_db
-from db.models import session, Car, Manufacturer
+from db.models import session, Car, Manufacturer, Feature
 
 if __name__  == '__main__':
     print("Welcome to Car Compare CLI")
@@ -16,12 +16,11 @@ if __name__  == '__main__':
             entries_made_cars = session.query(Car).all()
             entries_made_manufacturers = session.query(Manufacturer).all()
             delete_entries(entries_made_cars)
-            delete_entries(entries_made_manufacturers)
-             
+            delete_entries(entries_made_manufacturers) 
             break
+       
+       
         manufacturer = input("Enter the name of the manufacturer: ")
-        
-
         car_details = scrape_car_details(manufacturer, car_name)
         save_car_details_to_db(car_details)
 
@@ -29,8 +28,10 @@ if __name__  == '__main__':
 
         saved_cars = session.query(Car).all()
         saved_manufacturers = session.query(Manufacturer).all()
+        saved_features = session.query(Feature).all()
         print(saved_cars)
         print(saved_manufacturers)
+        print(saved_features)
 
         
 
