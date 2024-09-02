@@ -6,7 +6,7 @@ from sqlalchemy.orm import sessionmaker
 
 Base = declarative_base()
 
-engine = create_engine('sqlite:///cars.db')
+engine = create_engine('sqlite:///db/cars.db')
 
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -33,11 +33,17 @@ class Car(Base):
     __tablename__ = 'cars'
     id = Column(Integer, primary_key = True)
     name = Column(String, nullable = False)
-    price = Column(Integer)
-    horspower = Column(Integer)
+    price = Column(String)
+    power = Column(String)
+    torque = Column(String)
+    engine = Column(String)
+
     
     manufacturers = relationship('Manufacturer', secondary = car_manufacturer, back_populates = 'cars')
     features = relationship('Feature', secondary = car_feature, back_populates= 'cars')
+
+    def __repr__(self):
+        return f"{self.id}: {self.name}, {self.price}, {self.power}, {self.torque}, {self.engine}"
 
 class Manufacturer(Base):
     __tablename__ = 'manufacturers'
@@ -45,10 +51,12 @@ class Manufacturer(Base):
     name = Column(String, nullable= False)
     
     cars = relationship('Car', secondary = car_manufacturer, back_populates = 'manufacturers')
-
+    
+    def __repr__(self):
+        return f"{self.id}: {self.name}"
 class Feature(Base):
     __tablename__ = 'features'
     id = Column(Integer, primary_key = True)
     name = Column(String, nullable= True)
     
-    cars = relationship('Car', secondary = car_feature, back_populates= 'cars')
+    cars = relationship('Car', secondary = car_feature, back_populates= 'features')
