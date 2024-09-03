@@ -32,6 +32,11 @@ if __name__  == '__main__':
         print(saved_cars)
         print(saved_manufacturers)
         print(saved_features)
+        x = session.query(Car).filter_by(name = car_name).first()
+        print(x.manufacturer)
+        features = x.features
+        for feature in features:
+            print(feature.name)
 
         
 
