@@ -221,6 +221,93 @@ users and collaborators, but a little more syntactically complicated. Only add
 these in if you're feeling comfortable with Markdown.
 
 ***
+Car Compare CLI
+Overview
+The Car Compare CLI is a command-line interface application that allows users to add car details, compare different cars, and manage car records. The application uses web scraping to gather car information, stores it in a database using SQLAlchemy, and provides various functionalities through a user-friendly CLI.
+
+Features
+Add Cars: Enter car details and save them to the database.
+Compare Cars: View details of all saved cars and compare their attributes.
+Manage Records: Delete existing car records and manage the list of saved cars.
+Interactive CLI: Navigate through the CLI to perform different actions and view results.
+Requirements
+Python 3.8
+SQLAlchemy
+Alembic
+Requests
+BeautifulSoup4
+IPDB (for interactive debugging, optional)
+Installation
+Clone the Repository
+
+bash
+Copy code
+git clone <your-repository-url>
+cd car_compare_cli
+Set Up Virtual Environment
+
+Create a virtual environment to isolate project dependencies:
+
+bash
+Copy code
+python -m venv .venv
+Activate the virtual environment:
+
+On Windows:
+
+bash
+Copy code
+.venv\Scripts\activate
+On macOS/Linux:
+
+bash
+Copy code
+source .venv/bin/activate
+Install Dependencies
+
+Install the required packages using pipenv:
+
+bash
+Copy code
+pipenv install
+This will install all necessary dependencies, including:
+
+sqlalchemy for ORM functionality
+alembic for database migrations
+requests for making HTTP requests
+beautifulsoup4 for web scraping
+ipdb for interactive debugging (optional)
+Usage
+Start the CLI Application
+
+Run the CLI application:
+
+bash
+Copy code
+python cli.py
+Follow Prompts
+
+Enter the name of the car and manufacturer when prompted.
+Choose options to add more cars, compare cars, or delete existing records.
+Use the CLI menu to navigate through the application.
+Example
+plaintext
+Copy code
+Welcome to Car Compare CLI
+Enter the name of the car or type 'exit' to quit: x1
+Enter the name of the manufacturer: bmw
+Details for x1 have been successfully saved.
+
+--- List of Cars Added ---
+1: x1, 49.50 - 52.50 Lakh, 134.1 - 147.51 bhp, 230 Nm - 360 Nm, 1499 cc - 1995 cc
+Manufacturer: bmw
+Features: powered front seats, height adjustable driver seat, cruise control, automatic climate control, parking sensors
+
+Options:
+1. Add More Cars
+2. Compare Cars
+3. Delete Existing Car
+4. Exit
 
 ## Conclusion
 
