@@ -5,10 +5,10 @@ name = "pypi"
 
 [packages]
 ipdb = "*"
-sqlalchemy = "*"
-alembic = "*"
-requests = "*"
-beautifulsoup4 = "*"
+sqlalchemy = "1.4.47"
+alembic = "1.10.2"
+requests = "2.28.1"
+beautifulsoup4 = "4.12.2"
 
 [dev-packages]
 
