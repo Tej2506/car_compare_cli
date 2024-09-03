@@ -10,8 +10,9 @@ def scrape_car_details(manufacturer, car_name):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     response = requests.get(url, headers = headers)
+    print(response.status_code)
     if response.status_code != 200:
-        print(f"Failed to retrieve data fro {car_name}")
+        print(f"Failed to retrieve data for {car_name}")
         return None
 
     soup = BeautifulSoup(response.text,'html.parser')
@@ -46,7 +47,7 @@ def save_car_details_to_db(car_details):
     car_power = car_details.get('Power')
     car_engine = car_details.get('Engine')
     car_torque = car_details.get('Torque')
-    features = car_details.get('features_list')
+    features = car_details.get('features_list',[])
     
 
     manufacturer = session.query(Manufacturer).filter_by(name=manufacturer_name.lower()).first()
@@ -67,15 +68,27 @@ def save_car_details_to_db(car_details):
         )
         session.add(car)
         session.commit()
-
-    for feature in features:
-        feature_query = session.query(Feature).filter_by(name = feature.lower()).first() 
-        if not feature_query:
-            feature = Feature(name = feature.lower())
-            session.add(feature)
-            session.commit()
+    
+    for feature_name in features:
+        feature_name = feature_name.lower()
         
-    session.close()
+        feature = session.query(Feature).filter_by(name=feature_name).first()
+
+        if not feature:
+            feature = Feature(name=feature_name)
+            session.add(feature)
+            session.commit()  
+            
+        if feature not in car.features:
+            car.features.append(feature)
+
+    session.commit()
+    
+
+    
+
+        
+
 
 
 
