@@ -6,7 +6,8 @@ def scrape_car_details(manufacturer, car_name):
     manufacturer_search_query = manufacturer.replace(" ", "-").lower()
     car_name_search_query = car_name.replace(" ", "-").lower()
 
-    url = f"https://www.cardekho.com/{manufacturer_search_query}/{car_name_search_query}"
+    # url = f"https://www.cardekho.com/{manufacturer_search_query}/{car_name_search_query}"
+    url = f"https://www.cardekho.com/{manufacturer_search_query}-cars/{car_name_search_query}"
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
     response = requests.get(url, headers = headers)

@@ -1,3 +1,4 @@
+#cli.py
 from helpers import scrape_car_details, save_car_details_to_db
 from db.models import session, Car, Manufacturer, Feature
 
